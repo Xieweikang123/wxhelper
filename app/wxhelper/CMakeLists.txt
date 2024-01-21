@@ -14,7 +14,15 @@ file(GLOB CPP_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc  ${CMAKE_CURRENT_SOURC
 
 file(GLOB ASM_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/src/*.asm )
 
+
+set(VCPKG_INSTALLED_DIR "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/vcpkg")
+set(DETOURS_INCLUDE_DIRS  "${VCPKG_INSTALLED_DIR}/x64-windows/include")
+
+
 include_directories(${VCPKG_INSTALLED_DIR}/x64-windows/include ${DETOURS_INCLUDE_DIRS}) 
+message("输出-----------")
+message(STATUS "VCPKG_INSTALLED_DIR: ${VCPKG_INSTALLED_DIR}")
+message(STATUS "DETOURS_INCLUDE_DIRS: ${DETOURS_INCLUDE_DIRS}")
 
 
 add_subdirectory(../3rdparty 3rdparty)
@@ -22,11 +30,31 @@ add_subdirectory(../3rdparty 3rdparty)
 add_subdirectory(../base base)
 
 
+set(CMAKE_TOOLCHAIN_FILE "C:/Users/57031/Desktop/wxhelper/app/3rdparty/vcpkg/scripts/buildsystems/vcpkg.cmake")
+
 
 find_path(DETOURS_INCLUDE_DIRS "detours/detours.h")
+
+#list(APPEND CMAKE_PREFIX_PATH "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/vcpkg/x64-windows/include/detours")
+
+
+
 find_library(DETOURS_LIBRARY detours REQUIRED)
 
-find_package(nlohmann_json CONFIG REQUIRED)
+#Could not find a package configuration file provided by "nlohmann_json"
+
+  #find_path(NLOHMANN_JSON_INCLUDE_DIRS nlohmann/json.hpp)
+   # include_directories(${NLOHMANN_JSON_INCLUDE_DIRS})
+
+ #list(APPEND CMAKE_PREFIX_PATH "C:/Users/57031/Desktop/wxhelper/app/3rdparty/vcpkg/buildtrees/nlohmann-json")
+ #list(APPEND CMAKE_PREFIX_PATH "C:/Users/57031/Desktop/wxhelper/app/3rdparty/vcpkg/packages/nlohmann-json_x64-windows/include/nlohmann")
+ #list(APPEND CMAKE_PREFIX_PATH "C:/Users/57031/Desktop/wxhelper/app/3rdparty/vcpkg/downloads/nlohmann-json-v3.11.3/json-3.11.3")
+ list(APPEND CMAKE_PREFIX_PATH "C:/Users/57031/Desktop/wxhelper/app/3rdparty/vcpkg/packages/nlohmann-json_x64-windows/share/nlohmann_json")
+
+  #target_link_libraries(main PRIVATE nlohmann_json::nlohmann_json)
+
+  find_package(nlohmann_json CONFIG REQUIRED)
+#find_package(nlohmann_json CONFIG REQUIRED)
    
 add_library(wxhelper  SHARED ${CPP_FILES} ${ASM_FILES})
 message(11233)
